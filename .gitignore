@@ -1,0 +1,10 @@
+/pkg/
+/tmp/
+/Gemfile.lock
+
+# Added by claude-arsenal
+/dev/active/
+/.context/
+/.claude/tmp/
+/.claude/skills/gems/
+/CLAUDE.md

@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Skill activation rules for Claude Code"
+  },
+  "documentation-writing": {
+    "type": "guidelines",
+    "enforcement": "suggest",
+    "priority": "medium",
+    "promptTriggers": {
+      "keywords": [
+        "documentation",
+        "README",
+        "markdown",
+        "docs",
+        "write guide",
+        "skill documentation"
+      ],
+      "intentPatterns": [
+        "(write|create|update).*?(documentation|README|guide|docs)",
+        "(document|explain).*?(feature|skill|hook)",
+        "progressive disclosure"
+      ]
+    },
+    "fileTriggers": {
+      "pathPatterns": [
+        "README.md",
+        "context/**/*.md",
+        ".claude/skills/**/SKILL.md",
+        ".claude/skills/**/resources/*.md",
+        "**/*.md"
+      ],
+      "contentPatterns": [
+        "^# .*Skill$",
+        "## Purpose",
+        "## Core Principles",
+        "## Resources"
+      ]
+    },
+    "_linked": true,
+    "_source": "claude-arsenal"
+  }
+}

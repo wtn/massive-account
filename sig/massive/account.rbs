@@ -1,0 +1,57 @@
+module Massive
+  module Account
+    VERSION: String
+
+    class Error < StandardError
+    end
+
+    class Client
+      attr_reader account_id: String
+      attr_reader token: String
+
+      def self.sign_in: (email: String, password: String) -> Client?
+      def initialize: (account_id: String, token: String) -> void
+      def resources: () -> Hash[String, { plan: String, features: Hash[String, String] }]
+      def keys: () -> Array[{ name: String?, key: String, id: String?, created_at: String? }]
+      def key_details: (String key_id) -> Hash[Symbol, String]?
+      def account_info: () -> {
+        account_id: String,
+        resources: Hash[Symbol, {
+          tier: String?,
+          historical_years: Integer?,
+          rate_limit: { requests: Integer, window: Integer }?,
+          realtime: bool,
+          delay_minutes: Integer,
+          websocket: bool,
+          features: Hash[Symbol, bool]?
+        }],
+        credential_sets: Array[{
+          id: String?,
+          name: String?,
+          api_key: String,
+          created_at: String?,
+          s3: Hash[Symbol, String]
+        }]
+      }
+      def primary_credential_set: () -> {
+        id: String?,
+        name: String?,
+        api_key: String,
+        created_at: String?,
+        s3: Hash[Symbol, String]
+      }?
+      def rate_limit: (String | Symbol resource) -> { requests: Integer, window: Integer }?
+      def rate_limits: () -> Hash[Symbol, { requests: Integer, window: Integer }]
+      def historical_years: (String | Symbol resource) -> Integer?
+      def historical_cutoff_date: (String | Symbol resource) -> Date?
+      def historical_cutoff_time: (String | Symbol resource) -> Time?
+      def realtime?: (String | Symbol resource) -> bool
+      def websocket?: (String | Symbol resource) -> bool
+      def tier: (String | Symbol resource) -> String?
+      def tiers: () -> Hash[Symbol, String]
+    end
+
+    def self.sign_in: (email: String, password: String) -> Client?
+    def self.new: (account_id: String, token: String) -> Client
+  end
+end
