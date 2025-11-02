@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "massive/account"
+require "json"
+
+begin
+  info = Massive::Account.info
+rescue ArgumentError => e
+  warn "Error: #{e.message}"
+  warn "Set MASSIVE_ACCOUNT_EMAIL and MASSIVE_ACCOUNT_PASSWORD environment variables"
+  exit 1
+rescue Massive::Account::Error => e
+  warn "Error: #{e.message}"
+  exit 1
+end
+
+puts "=" * 60
+puts "ACCOUNT"
+puts "=" * 60
+puts "  Account ID:       #{info[:account_id]}"
+puts "  Email:            #{info[:email]}"
+puts "  Provider:         #{info[:provider]}"
+puts "  Account Type:     #{info[:account_type]}"
+puts "  Subscription ID:  #{info[:subscription_id]}"
+puts "  Billing Interval: #{info[:billing_interval]}"
+puts "  Email Verified:   #{info[:email_verified]}"
+puts "  Created:          #{info[:created_utc]}"
+puts "  Updated:          #{info[:updated_utc]}"
+
+puts
+puts "=" * 60
+puts "ASSET CLASSES"
+puts "=" * 60
+info[:asset_classes]&.each do |asset|
+  asset_info = info[:assets][asset]
+  ws_limit = asset_info[:websocket_connection_limit]
+  rate = asset_info[:rest_rate_limit]
+  puts
+  puts "  #{asset.upcase}:"
+  puts "    WebSocket Connections: #{ws_limit}"
+  puts "    REST Rate Limit:       #{rate[:requests]} requests / #{rate[:window]} second(s)"
+end
+
+puts
+puts "=" * 60
+puts "CREDENTIALS"
+puts "=" * 60
+info[:credential_sets]&.each_with_index do |cred, i|
+  puts
+  puts "  Credential Set #{i + 1}:"
+  puts "    ID:         #{cred[:id]}"
+  puts "    Name:       #{cred[:name]}"
+  puts "    API Key:    #{cred[:api_key]}"
+  puts "    Created At: #{cred[:created_at]}"
+  if cred[:s3] && !cred[:s3].empty?
+    puts "    S3:"
+    puts "      Access Key ID:     #{cred[:s3][:access_key_id]}"
+    puts "      Secret Access Key: #{cred[:s3][:secret_access_key]}"
+    puts "      Endpoint:          #{cred[:s3][:endpoint]}"
+    puts "      Bucket:            #{cred[:s3][:bucket]}"
+  end
+end
+
+puts

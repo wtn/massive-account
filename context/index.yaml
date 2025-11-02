@@ -1,0 +1,39 @@
+# Project Context Index
+# For use with agent-context gem
+# https://github.com/ioquatix/agent-context
+
+name: massive-account
+version: 0.1.0
+description: Ruby client for accessing massive.com account details, subscriptions, API keys, and S3 credentials
+
+files:
+  - path: getting-started.md
+    title: Getting Started
+    description: Setup, installation, and development workflow
+    priority: high
+
+  - path: api-reference.md
+    title: API Reference
+    description: Complete API documentation and data model
+    priority: high
+
+  - path: architecture.md
+    title: Architecture
+    description: System architecture, components, and design decisions
+    priority: high
+
+  - path: conventions.md
+    title: Conventions
+    description: Coding standards, naming conventions, and best practices
+    priority: high
+
+tags:
+  - massive-account
+  - ruby
+  - api-client
+  - documentation
+  - credentials
+  - authentication
+
+author: William T. Nelson
+license: MIT
